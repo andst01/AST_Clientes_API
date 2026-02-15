@@ -15,5 +15,13 @@ namespace Clientes.Application
         {
             _clienteRepositorio = clienteRepositorio;
         }
-    }
+
+        public async Task<List<ClienteDTO>?> ObterDadosPorNomeCpf(string nomeCpf)
+        {
+            var resultado = await _clienteRepositorio.ObterDadosPorNomeCpf(nomeCpf);
+            var response = _mapper.Map<List<ClienteDTO>?>(resultado);
+            
+            return response;
+        }
+      }
 }

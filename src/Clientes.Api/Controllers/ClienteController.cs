@@ -14,6 +14,7 @@ namespace Clientes.Api.Controllers
         {
             _clienteApp = clienteApp;
         }
+
         [HttpGet]
         [Route("ObterTodos")]
         [ProducesResponseType(typeof(List<ClienteDTO>), StatusCodes.Status200OK)]
@@ -35,6 +36,17 @@ namespace Clientes.Api.Controllers
             var cliente = await _clienteApp.ObterPorIdAssyn(id);
             if (cliente == null) return NotFound();
             return Ok(cliente);
+        }
+
+        [HttpGet]
+        [Route("ObterDadosPorNomeCpf")]
+        [ProducesResponseType(typeof(List<ClienteDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ObjectResult), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ObterDadosPorNomeCpf(string termo)
+        {
+            var clientes = await _clienteApp.ObterDadosPorNomeCpf(termo);
+            return Ok(clientes);
         }
 
         [HttpPost]

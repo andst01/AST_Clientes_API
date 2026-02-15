@@ -9,5 +9,6 @@ namespace Clientes.Domain.Interfaces
 {
     public interface IClienteRepositorio : IRepositorioBase<Cliente>
     {
+        Task<List<Cliente>?> ObterDadosPorNomeCpf(string nomeCpf);
     }
 }

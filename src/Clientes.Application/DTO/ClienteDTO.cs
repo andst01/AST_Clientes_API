@@ -18,5 +18,13 @@ namespace Clientes.Application.DTO
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public string Cep { get; set; }
+
+        public string NomeCpf 
+        { 
+            get
+            {
+                return $"{Nome} - {CpfCnpj}";
+            }
+        }
     }
 }

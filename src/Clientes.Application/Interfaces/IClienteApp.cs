@@ -11,5 +11,6 @@ namespace Clientes.Application.Interfaces
 {
    public interface IClienteApp : IAppBase<Cliente, ClienteRequest, ClienteDTO>
    {
-   }
+        Task<List<ClienteDTO>?> ObterDadosPorNomeCpf(string nomeCpf);
+    }
 }
