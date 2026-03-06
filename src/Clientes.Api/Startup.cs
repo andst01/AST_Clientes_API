@@ -50,6 +50,7 @@ namespace Clientes.Api
 
             app.UseRouting();
 
+            app.UseCors("AllowAll");
             app.UseAuthorization();
 
             app.UseSwagger();
