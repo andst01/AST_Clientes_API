@@ -1,5 +1,7 @@
 ﻿using Clientes.Api.Filters;
 using Clientes.Infra.CrossCuting.Config;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
 
 namespace Clientes.Api
@@ -20,6 +22,38 @@ namespace Clientes.Api
             services.AddAutoMappingConfig();
             services.AddSwaggerConfig();
             services.AddInjecaoDependeciaConfig();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                 .AddJwtBearer(options =>
+                 {
+                     options.Authority = "https://localhost:5001";
+                     options.RequireHttpsMetadata = false;
+                     options.SaveToken = true;
+
+                     options.TokenValidationParameters = new TokenValidationParameters
+                     {
+                         ValidateIssuer = true,
+                         ValidIssuer = "https://localhost:5001",
+                         ValidateAudience = false, // Deixe false para teste inicial
+                         ValidateLifetime = true,
+                         RoleClaimType = "role",
+                         NameClaimType = "name"
+
+
+                     };
+
+                     options.Events = new JwtBearerEvents
+                     {
+                         OnAuthenticationFailed = context =>
+                         {
+                             Console.WriteLine("--- ERRO FATAL NA API ---");
+                             Console.WriteLine($"Mensagem: {context.Exception.Message}");
+                             if (context.Exception.InnerException != null)
+                                 Console.WriteLine($"Inner: {context.Exception.InnerException.Message}");
+                             return Task.CompletedTask;
+                         }
+                     };
+                 });
 
             services.AddControllers().AddNewtonsoftJson();
 
@@ -51,6 +85,7 @@ namespace Clientes.Api
             app.UseRouting();
 
             app.UseCors("AllowAll");
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger();
