@@ -1,10 +1,12 @@
 ﻿using Clientes.Application.DTO;
 using Clientes.Application.Interfaces;
 using Clientes.Application.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clientes.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ClienteController : ControllerBase

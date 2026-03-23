@@ -2,6 +2,7 @@
 using Clientes.Infra.CrossCuting.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json.Serialization;
 
 namespace Clientes.Api
@@ -11,6 +12,9 @@ namespace Clientes.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+            System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
 
         }
 
@@ -55,6 +59,7 @@ namespace Clientes.Api
                      };
                  });
 
+            services.AddAuthorization();
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddControllers(options =>
